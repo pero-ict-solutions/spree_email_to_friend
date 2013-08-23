@@ -1,10 +1,10 @@
 class Spree::ToFriendMailer < ActionMailer::Base
+  default :from => Spree::MailMethod.current.try(:preferred_mails_from)
 
   def mail_to_friend(object, mail)
     @object = object
     @mail = mail
-    opts = {:from => Spree::MailMethod.current.preferred_mails_from}
-
+    opts = {}
     if mail.hide_recipients && Spree::Config[:hidden_recipients_to_address]
       opts[:to] = Spree::Config[:hidden_recipients_to_address]
       opts[:bcc] = mail.recipient_email
